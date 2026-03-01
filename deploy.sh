@@ -98,12 +98,31 @@ sudo systemctl restart gunicorn_${PROJECT_NAME}
 # 6. Setup Cloudflare SSL Certificates (Strict Mode)
 echo "=> Setting up Cloudflare SSL certificates..."
 sudo mkdir -p /etc/nginx/ssl
-echo "Please place your Cloudflare Origin Certificate at /etc/nginx/ssl/$DOMAIN.pem"
-echo "Please place your Cloudflare Private Key at /etc/nginx/ssl/$DOMAIN.key"
-# chmod 400 /etc/nginx/ssl/$DOMAIN.key
 
-# Cloudflare Authenticated Origin Pulls (Verify Cloudflare is the only one talking to your server)
+echo ""
+echo "========================================================="
+echo "  STEP: Paste your Cloudflare ORIGIN CERTIFICATE below."
+echo "  Go to Cloudflare Dashboard → SSL/TLS → Origin Server"
+echo "  → Create Certificate → copy the certificate (.pem)."
+echo "  Paste it here, then press ENTER and Ctrl+D when done:"
+echo "========================================================="
+sudo bash -c "cat > /etc/nginx/ssl/$DOMAIN.pem"
+echo "✓ Certificate saved."
+
+echo ""
+echo "========================================================="
+echo "  STEP: Paste your Cloudflare PRIVATE KEY below."
+echo "  (This is shown only once when you created the cert.)"
+echo "  Paste it here, then press ENTER and Ctrl+D when done:"
+echo "========================================================="
+sudo bash -c "cat > /etc/nginx/ssl/$DOMAIN.key"
+sudo chmod 400 /etc/nginx/ssl/$DOMAIN.key
+echo "✓ Private key saved and locked (chmod 400)."
+
+# Cloudflare Authenticated Origin Pulls
+echo "=> Downloading Cloudflare Authenticated Origin Pull CA..."
 sudo curl -s https://developers.cloudflare.com/ssl/static/authenticated_origin_pull_ca.pem -o /etc/nginx/ssl/cloudflare_origin_pull_ca.pem
+echo "✓ Cloudflare Origin Pull CA saved."
 
 # 7. Setup Nginx with Cloudflare Security
 echo "=> Configuring Nginx..."

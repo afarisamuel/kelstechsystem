@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% if project.meta_title %}{{ project.meta_title }}{% else %}{{ project.title }}{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Project Hero -->
+<section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-white dark:from-dark-900/50 to-slate-100 dark:to-dark-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-8 animate-on-scroll">
+            <a href="{% url 'home' %}" class="hover:text-primary-400 transition-colors">Home</a>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <a href="{% url 'projects' %}" class="hover:text-primary-400 transition-colors">Projects</a>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            <span class="text-gray-600 dark:text-gray-400 font-medium">{{ project.title }}</span>
+        </nav>
+
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+            <div class="animate-on-scroll">
+                <span
+                    class="inline-block px-4 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    {{ project.get_category_display }}
+                </span>
+                <h1
+                    class="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">
+                    {{ project.title }}
+                </h1>
+                <p class="text-gray-500 text-lg leading-relaxed mb-8">
+                    {{ project.description }}
+                </p>
+
+                <div
+                    class="grid sm:grid-cols-2 gap-6 p-8 bg-white dark:bg-dark-800/40 border border-gray-200 dark:border-white/5 rounded-3xl backdrop-blur-sm">
+                    <div>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Client</p>
+                        <p class="text-slate-900 dark:text-white font-semibold">
+                            {{ project.client_name|default:"Private Client" }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Completion Date
+                        </p>
+                        <p class="text-slate-900 dark:text-white font-semibold">
+                            {{ project.date_completed|date:"F Y" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Image -->
+            <div class="relative animate-on-scroll">
+                <div
+                    class="absolute -inset-4 bg-gradient-to-br from-primary-500/10 to-accent-500/10 rounded-[2.5rem] blur-2xl">
+                </div>
+                {% if project.image %}
+                <div
+                    class="relative rounded-[2rem] overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}"
+                        class="w-full aspect-[4/3] object-cover">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Story & Content -->
+<section class="py-24 bg-white dark:bg-dark-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="animate-on-scroll">
+            <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-8">Project Details</h2>
+            <div class="prose dark:prose-invert prose-lg max-w-none text-gray-500 leading-relaxed">
+                {% if project.full_description %}
+                {{ project.full_description|linebreaks }}
+                {% else %}
+                {{ project.description|linebreaks }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    {% if project.images.count > 0 %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24">
+        <div class="text-center mb-16 animate-on-scroll">
+            <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-4">Project Gallery</h2>
+            <div class="h-1 w-20 bg-primary-500 rounded-full mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for img in project.images.all %}
+            <div
+                class="group relative rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-lg animate-on-scroll hover:shadow-primary-500/20 transition-all duration-500 transform hover:-translate-y-2">
+                {% if img.image %}
+                <img src="{{ img.image.url }}" alt="{{ img.caption|default:project.title }}"
+                    class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700">
+                {% endif %}
+                {% if img.caption %}
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <p class="text-white text-sm font-medium">{{ img.caption }}</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="py-24 bg-slate-50 dark:bg-dark-950/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12 animate-on-scroll">
+            <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white">Similar Projects</h2>
+            <a href="{% url 'projects' %}"
+                class="text-primary-400 hover:text-primary-300 font-bold text-sm tracking-widest uppercase flex items-center">
+                All Projects <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+            </a>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for p in related_projects %}
+            <a href="{% url 'project_detail' p.slug %}"
+                class="group bg-white dark:bg-dark-800 border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="aspect-video relative overflow-hidden">
+                    {% if p.image %}
+                    <img src="{{ p.image.url }}" alt="{{ p.title }}"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% endif %}
+                    <div class="absolute top-4 left-4">
+                        <span
+                            class="px-3 py-1 bg-white dark:bg-dark-900/80 backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-full text-[10px] font-bold text-primary-400 uppercase">
+                            {{ p.get_category_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3
+                        class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-primary-400 transition-colors">
+                        {{ p.title }}</h3>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+            class="relative bg-gradient-to-br from-primary-500 to-primary-600 rounded-3xl p-12 sm:p-16 overflow-hidden text-center text-slate-900 dark:text-white animate-on-scroll">
+            <h2 class="text-3xl md:text-4xl font-display font-extrabold mb-6 relative">Ready to start your project?</h2>
+            <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto relative">
+                Let's turn your ideas into reality with our professional team and innovative solutions.
+            </p>
+            <div class="relative flex flex-col sm:flex-row justify-center gap-4">
+                <a href="{% url 'contact' %}"
+                    class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:shadow-xl transition-all duration-300">
+                    Get a Custom Quote
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

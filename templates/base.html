@@ -1,0 +1,301 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} {% if company_info.meta_title %} {{ company_info.meta_title }} {% else %} {{
+        company_info.company_name|default:'Kels Technologies & Systems' }}
+        {% endif %} {% endblock %} | Security & Technology Solutions </title>
+    <meta name="description"
+        content="{% block meta_description %}{% if company_info.meta_description %}{{ company_info.meta_description }}{% else %}{{ company_info.company_name|default:'Kels Technologies & Systems' }} — Premier CCTV & security installation, app development, website development, and software solutions.{% endif %}{% endblock %}">
+    <!-- Open Graph Tags -->
+    <meta property="og:title"
+        content="{% block og_title %}{% if company_info.meta_title %}{{ company_info.meta_title }}{% else %}{{ company_info.company_name|default:'Kels Technologies & Systems' }}{% endif %}{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}{% if company_info.meta_description %}{{ company_info.meta_description }}{% else %}{{ company_info.company_name|default:'Kels Technologies & Systems' }} — Premier CCTV & security installation, app development, website development, and software solutions.{% endif %}{% endblock %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% block og_image %}
+    {% if company_info.og_image and company_info.og_image.name %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ company_info.og_image.url }}">
+    {% endif %}
+    {% endblock %}
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f7fa',
+                            100: '#e3ebf4',
+                            200: '#c2d2e6',
+                            300: '#91b0d3',
+                            400: '#5c8abd',
+                            500: '#0a1931',
+                            600: '#081428',
+                            700: '#06101f',
+                            800: '#040b15',
+                            900: '#03080e',
+                            950: '#02050a',
+                        },
+                        accent: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        },
+                        dark: {
+                            800: '#1e1e2e',
+                            900: '#11111b',
+                            950: '#0a0a14',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Outfit', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(92, 138, 189, 0.2)' },
+                            '100%': { boxShadow: '0 0 40px rgba(92, 138, 189, 0.4)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Theme Initialization Script -->
+    <script> if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark') } else { document.documentElement.classList.remove('dark') } </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"> <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> <!-- Custom Styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body class="bg-slate-100 dark:bg-dark-950 text-gray-200 font-sans antialiased"> <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20"> <!-- Logo --> <a href="{% url 'home' %}"
+                    class="flex items-center space-x-3 group">
+                    {% if company_info.company_logo and company_info.company_logo.name %}
+                    <img src="{{ company_info.company_logo.url }}"
+                        alt="{{ company_info.company_name|default:'Kels Technologies & Systems' }}"
+                        class="h-10 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300">
+                    {% else %}
+                    <div
+                        class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                        <i class="fa-solid fa-shield-halved text-white text-lg"></i>
+                    </div>
+                    {% endif %}
+                    <span class="text-xl font-display font-bold text-slate-900 dark:text-white">
+                        {{ company_info.company_name|default:'Kels Technologies & Systems' }} </span>
+                </a> <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1"> <a href="{% url 'home' %}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">Home</a>
+                    <a href="{% url 'about' %}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">About</a>
+                    <a href="{% url 'services' %}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">Services</a>
+                    <a href="{% url 'projects' %}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">Projects</a>
+                    <a href="{% url 'blog_list' %}"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">Blog</a>
+                    <a href="{% url 'services' %}#faq"
+                        class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-all duration-200">FAQ</a>
+                    <!-- Theme Toggle --> <button id="themeToggle"
+                        class="p-2 ml-2 rounded-lg text-gray-500 hover:text-primary-500 hover:bg-gray-100 dark:hover:bg-white dark:bg-dark-900 transition-colors focus:outline-none">
+                        <i id="themeIcon" class="fa-solid fa-moon text-lg w-5 h-5 flex items-center justify-center"></i>
+                    </button> <a href="{% url 'contact' %}"
+                        class="ml-2 px-6 py-2.5 bg-primary-500 text-white rounded-lg text-sm font-semibold hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/25 transform hover:-translate-y-0.5 transition-all duration-200">
+                        Contact Us </a>
+                </div> <!-- Mobile Menu Button --> <button id="mobile-menu-btn"
+                    class="md:hidden text-gray-600 hover:text-slate-900 dark:text-white p-2"> <i
+                        class="fa-solid fa-bars text-xl" id="menu-icon"></i> </button>
+            </div>
+        </div> <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white dark:bg-dark-900/95 backdrop-blur-xl border-t border-gray-200 dark:border-transparent ">
+            <div class="px-4 py-4 space-y-2"> <a href="{% url 'home' %}"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">Home</a>
+                <a href="{% url 'about' %}"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">About</a>
+                <a href="{% url 'services' %}"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">Services</a>
+                <a href="{% url 'projects' %}"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">Projects</a>
+                <a href="{% url 'blog_list' %}"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">Blog</a>
+                <a href="{% url 'services' %}#faq"
+                    class="block px-4 py-3 rounded-lg text-slate-700 dark:text-gray-300 hover:text-primary-500 hover:bg-primary-500/10 transition-colors">FAQ</a>
+                <a href="{% url 'contact' %}"
+                    class="block px-4 py-3 rounded-lg bg-primary-500 text-white text-center font-semibold">Contact
+                    Us</a>
+            </div>
+        </div>
+    </nav> <!-- Messages --> {% if messages %} <div class="fixed top-24 right-4 z-50 space-y-2" id="messages-container">
+        {% for message in messages %} <div
+            class="message-toast bg-slate-50 dark:bg-dark-800 border border-primary-500/30 rounded-lg px-6 py-4 shadow-xl backdrop-blur-sm animate-slide-up flex items-center space-x-3">
+            <i class="fa-solid fa-circle-check text-primary-400"></i> <span class="text-sm text-gray-200">
+                {{ message }}</span> <button onclick="this.parentElement.remove()"
+                class="text-gray-500 hover:text-gray-600 ml-2">
+                <i class="fa-solid fa-xmark"></i> </button>
+        </div> {% endfor %} </div> {% endif %} <!-- Main Content -->
+    <main> {% block content %}{% endblock %} </main> <!-- Footer -->
+    <footer class="bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-transparent mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"> <!-- Company Info -->
+                <div class="lg:col-span-1"> <a href="{% url 'home' %}" class="flex items-center space-x-3 mb-6 group">
+                        {% if company_info.company_logo and company_info.company_logo.name %}
+                        <img src="{{ company_info.company_logo.url }}"
+                            alt="{{ company_info.company_name|default:'Kels Technologies & Systems' }}"
+                            class="h-10 w-auto object-contain transform group-hover:scale-105 transition-transform duration-300">
+                        {% else %}
+                        <div
+                            class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center transform group-hover:rotate-6 transition-transform duration-300">
+                            <i class="fa-solid fa-shield-halved text-white text-lg"></i>
+                        </div>
+                        {% endif %}
+                        <span class="text-xl font-display font-bold text-slate-900 dark:text-white">
+                            {{ company_info.company_name|default:'Kels Technologies & Systems' }}</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6"> {% if company_info.footer_description %}
+                        {{ company_info.footer_description }}{% else %}Empowering businesses with cutting-edge security
+                        solutions and innovative technology services.{% endif %} </p>
+                    <div class="flex space-x-4"> {% if company_info.facebook_url %} <a
+                            href="{{ company_info.facebook_url }}" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-gray-500 hover:text-primary-400 hover:bg-gray-800 transition-all duration-200">
+                            <i class="fa-brands fa-facebook-f"></i> </a> {% endif %} {% if company_info.twitter_url %}
+                        <a href="{{ company_info.twitter_url }}" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-gray-500 hover:text-primary-400 hover:bg-gray-800 transition-all duration-200">
+                            <i class="fa-brands fa-twitter"></i> </a> {% endif %} {% if company_info.instagram_url %} <a
+                            href="{{ company_info.instagram_url }}" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-gray-500 hover:text-primary-400 hover:bg-gray-800 transition-all duration-200">
+                            <i class="fa-brands fa-instagram"></i> </a> {% endif %} {% if company_info.linkedin_url %}
+                        <a href="{{ company_info.linkedin_url }}" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-gray-500 hover:text-primary-400 hover:bg-gray-800 transition-all duration-200">
+                            <i class="fa-brands fa-linkedin-in"></i> </a> {% endif %}
+                    </div>
+                </div> <!-- Quick Links -->
+                <div>
+                    <h3 class="text-slate-900 dark:text-white font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'home' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Home</a> </li>
+                        <li><a href="{% url 'about' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">About Us</a></li>
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Our Services</a>
+                        </li>
+                        <li><a href="{% url 'projects' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Projects</a>
+                        </li>
+                        <li><a href="{% url 'blog_list' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Blog &
+                                Insights</a></li>
+                        <li><a href="{% url 'services' %}#faq"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">FAQ</a></li>
+                        <li><a href="{% url 'contact' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Contact</a> </li>
+                    </ul>
+                </div> <!-- Services -->
+                <div>
+                    <h3 class="text-slate-900 dark:text-white font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">CCTV
+                                Installation</a></li>
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Security
+                                Systems</a></li>
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">App
+                                Development</a></li>
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Web
+                                Development</a></li>
+                        <li><a href="{% url 'services' %}"
+                                class="text-gray-500 hover:text-primary-400 text-sm transition-colors">Software
+                                Solutions</a></li>
+                    </ul>
+                </div> <!-- Contact Info -->
+                <div>
+                    <h3 class="text-slate-900 dark:text-white font-semibold mb-6">Contact</h3>
+                    <ul class="space-y-4">
+                        {% if company_info.address %}
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot text-primary-400 mt-1"></i>
+                            <span class="text-gray-500 text-sm">{{ company_info.address }}</span>
+                        </li>
+                        {% endif %}
+                        {% if company_info.phone %}
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-phone text-primary-400 mt-1"></i>
+                            <span class="text-gray-500 text-sm">{{ company_info.phone }}</span>
+                        </li>
+                        {% endif %}
+                        {% if company_info.email %}
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-envelope text-primary-400 mt-1"></i>
+                            <a href="mailto:{{ company_info.email }}"
+                                class="text-gray-500 text-sm hover:text-primary-400">{{ company_info.email }}</a>
+                        </li>
+                        {% endif %}
+                        {% if company_info.working_hours %}
+                        <li class="flex items-start space-x-3">
+                            <i class="fa-solid fa-clock text-primary-400 mt-1"></i>
+                            <span class="text-gray-500 text-sm">{{ company_info.working_hours }}</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div> <!-- Bottom Bar -->
+            <div
+                class="border-t border-gray-200 dark:border-transparent py-8 flex flex-col sm:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">&copy; 2026
+                    {{ company_info.company_name|default:'Kels Technologies & Systems' }}.
+                    All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 sm:mt-0"> <a href="#"
+                        class="text-gray-500 hover:text-gray-500 text-sm transition-colors">Privacy Policy</a> <a
+                        href="#" class="text-gray-500 hover:text-gray-500 text-sm transition-colors">Terms of
+                        Service</a> </div>
+            </div>
+        </div>
+    </footer> <!-- WhatsApp Floating Button --> {% if company_info.whatsapp_number %} <a
+        href="https://wa.me/{{ company_info.whatsapp_number }}" target="_blank" rel="noopener noreferrer"
+        class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg shadow-green-500/30 hover:bg-green-600 hover:shadow-green-500/50 transform hover:scale-110 transition-all duration-300 group">
+        <i class="fa-brands fa-whatsapp text-slate-900 dark:text-white text-2xl"></i> <span
+            class="absolute right-full mr-3 bg-slate-50 dark:bg-dark-800 text-slate-900 dark:text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap border border-gray-300  ">
+            Chat with us </span> </a> {% endif %} <!-- Scripts -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

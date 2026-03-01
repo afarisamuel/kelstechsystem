@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %} {% block title %}{% if post.meta_title %}{{ post.meta_title }}{% else %}{{ post.title }}{% endif %}{%
+endblock %} {% block meta_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{
+post.content|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+{% block og_title %}{% if post.meta_title %}{{ post.meta_title }}{% else %}{{ post.title }}{% endif %}{% endblock %}
+{% block og_description %}{% if post.meta_description %}{{ post.meta_description }}{% else %}{{
+post.content|striptags|truncatechars:160 }}{% endif %}{% endblock %}
+{% block og_image %}
+{% if post.og_image and post.og_image.name %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.og_image.url }}">
+{% elif post.image and post.image.name %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.image.url }}">
+{% endif %}
+{% endblock %} {% block content %}
+<!-- Hero Section -->
+<section class="relative pt-32 pb-48 overflow-hidden"> <!-- Background Treatment --> {% if post.image %} <div
+        class="absolute inset-0 z-0"> <img src="{{ post.image.url }}" alt="Background"
+            class="w-full h-full object-cover opacity-20 filter blur-2xl">
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-white dark:from-dark-900/80 via-white dark:via-dark-900/90 to-slate-100 dark:to-dark-950">
+        </div>
+    </div> {% else %} <div
+        class="absolute inset-0 z-0 bg-gradient-to-br from-white dark:from-dark-900 via-dark-800 to-white dark:to-dark-900">
+        <!-- Abstract gradient shapes -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-primary-500/10 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent-500/10 blur-3xl"></div>
+    </div> {% endif %} <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12">
+        <!-- Breadcrumb -->
+        <nav
+            class="flex justify-center items-center space-x-3 text-sm text-gray-500 mb-8 font-medium bg-slate-50 dark:bg-dark-800 inline-flex px-4 py-2 rounded-full border border-gray-300  backdrop-blur-sm">
+            <a href="{% url 'home' %}" class="hover:text-primary-400 transition-colors">Home</a> <i
+                class="fa-solid fa-chevron-right text-[10px] text-gray-600"></i> <a href="{% url 'blog_list' %}"
+                class="hover:text-primary-400 transition-colors">Insights</a> <i
+                class="fa-solid fa-chevron-right text-[10px] text-gray-600"></i> <span
+                class="text-gray-600 truncate max-w-[200px] sm:max-w-xs">{{ post.title }}</span> </nav>
+        <div> <span
+                class="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full bg-primary-500/10 border border-primary-500/30 text-xs font-bold text-primary-400 tracking-widest uppercase shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                <i class="fa-solid fa-tag text-[10px]"></i> {{ post.get_category_display }} </span> </div>
+        <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 dark:text-white mb-8 leading-tight tracking-tight drop-shadow-md">
+            {{ post.title }} </h1>
+        <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600 ">
+            <div
+                class="flex items-center bg-slate-50 dark:bg-dark-800 rounded-full pr-4 py-1 border border-gray-300  backdrop-blur-sm">
+                <div
+                    class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold mr-3 shadow-inner">
+                    {{ post.author|make_list|first|upper }} </div> <span
+                    class="font-semibold text-slate-900 dark:text-white tracking-wide">{{ post.author }}</span>
+            </div>
+            <div
+                class="flex items-center text-gray-500 bg-slate-50 dark:bg-dark-800 rounded-full px-4 py-2 border border-gray-300  backdrop-blur-sm">
+                <i class="fa-regular fa-calendar-alt mr-2 text-primary-400"></i> <time
+                    datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"F d, Y" }}</time> </div>
+            <div
+                class="flex items-center text-gray-500 bg-slate-50 dark:bg-dark-800 rounded-full px-4 py-2 border border-gray-300  backdrop-blur-sm">
+                <i class="fa-regular fa-clock mr-2 text-primary-400"></i> <span>5 min read</span> </div>
+        </div>
+    </div>
+</section> <!-- Main Article Content Frame -->
+<section class="relative z-20 -mt-32 pb-24">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+            class="bg-white dark:bg-dark-900 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-200 dark:border-transparent overflow-hidden transform transition-all duration-500">
+            {% if post.image %} <!-- Featured Image -->
+            <div class="w-full aspect-video md:aspect-[21/9] relative group overflow-hidden"> <img
+                    src="{{ post.image.url }}" alt="{{ post.title }}"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-900 to-transparent opacity-80">
+                </div>
+            </div> {% else %} <!-- Placeholder geometric header if no image -->
+            <div
+                class="w-full h-32 md:h-48 bg-gradient-to-r from-slate-50 dark:from-dark-800 via-white dark:via-dark-900 to-slate-50 dark:to-dark-800 flex items-center justify-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('{% static 'img/pattern-grid.svg' %}')] opacity-20"></div>
+            </div> {% endif %} <div class="p-8 md:p-14 md:px-20"> <!-- Share Floating on Desktop -->
+                <div
+                    class="xl:absolute xl:-left-12 xl:top-64 xl:flex xl:flex-col xl:space-y-4 xl:space-x-0 hidden border border-gray-200 dark:border-transparent bg-white dark:bg-dark-900/80 backdrop-blur-sm p-3 rounded-full">
+                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-center">Share</span>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-slate-50 dark:bg-dark-800 border border-gray-300  text-gray-500 flex items-center justify-center hover:bg-blue-600 hover:text-slate-900 dark:text-white hover:border-blue-600 hover:-translate-y-1 transition-all duration-300 shadow-lg">
+                        <i class="fa-brands fa-facebook-f"></i> </a> <a href="#"
+                        class="w-10 h-10 rounded-full bg-slate-50 dark:bg-dark-800 border border-gray-300  text-gray-500 flex items-center justify-center hover:bg-sky-500 hover:text-slate-900 dark:text-white hover:border-sky-500 hover:-translate-y-1 transition-all duration-300 shadow-lg">
+                        <i class="fa-brands fa-twitter"></i> </a> <a href="#"
+                        class="w-10 h-10 rounded-full bg-slate-50 dark:bg-dark-800 border border-gray-300  text-gray-500 flex items-center justify-center hover:bg-blue-700 hover:text-slate-900 dark:text-white hover:border-blue-700 hover:-translate-y-1 transition-all duration-300 shadow-lg">
+                        <i class="fa-brands fa-linkedin-in"></i> </a> </div> <!-- Rich Text Content -->
+                <article
+                    class="prose dark:prose-invert prose-lg md:prose-xl prose-p:text-gray-600 prose-p:leading-relaxed prose-headings:font-display prose-headings:text-slate-900 dark:text-white prose-a:text-primary-400 prose-a:no-underline hover:prose-a:underline hover:prose-a:text-primary-300 prose-img:rounded-2xl max-w-none">
+                    {{ post.content|linebreaks }} </article> <!-- Mobile & Inline Social Share -->
+                <div
+                    class="mt-16 pt-10 border-t border-gray-200 dark:border-transparent flex flex-col sm:flex-row items-center justify-between gap-6 px-4 bg-slate-50 dark:bg-dark-800/30 rounded-2xl p-6">
+                    <div>
+                        <h4 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Found this helpful?</h4>
+                        <p class="text-sm text-gray-500 ">Share it with your network and keep the conversation going.
+                        </p>
+                    </div>
+                    <div class="flex space-x-3 text-gray-500 shrink-0"> <a href="#"
+                            class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-dark-800 border border-gray-300  flex items-center justify-center hover:bg-blue-600 hover:text-slate-900 dark:text-white hover:border-blue-600 transition-all duration-300 group">
+                            <i class="fa-brands fa-facebook-f group-hover:scale-125 transition-transform"></i> </a> <a
+                            href="#"
+                            class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-dark-800 border border-gray-300  flex items-center justify-center hover:bg-sky-500 hover:text-slate-900 dark:text-white hover:border-sky-500 transition-all duration-300 group">
+                            <i class="fa-brands fa-twitter group-hover:scale-125 transition-transform"></i> </a> <a
+                            href="#"
+                            class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-dark-800 border border-gray-300  flex items-center justify-center hover:bg-blue-700 hover:text-slate-900 dark:text-white hover:border-blue-700 transition-all duration-300 group">
+                            <i class="fa-brands fa-linkedin-in group-hover:scale-125 transition-transform"></i> </a> <a
+                            href="#"
+                            class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-dark-800 border border-gray-300  flex items-center justify-center hover:bg-green-500 hover:text-slate-900 dark:text-white hover:border-green-500 transition-all duration-300 group">
+                            <i class="fa-brands fa-whatsapp group-hover:scale-125 transition-transform"></i> </a> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- Related Posts -->
+{% if related_posts %}
+<section class="py-24 bg-white dark:bg-dark-900 relative">
+    <div class="absolute inset-0 bg-[url('{% static 'img/pattern-grid.svg' %}')] opacity-5"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between xl:px-8 mb-16 gap-6">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-2">More in {{
+                    post.get_category_display }}</h2>
+                <div class="h-1 w-20 bg-primary-500 rounded-full"></div>
+            </div> <a href="{% url 'blog_list' %}?category={{ post.category }}"
+                class="inline-flex items-center px-6 py-3 bg-slate-50 dark:bg-dark-800 hover:bg-dark-700 border border-gray-300  rounded-xl text-slate-900 dark:text-white font-medium transition-colors">
+                View all from category <i class="fa-solid fa-arrow-right ml-2 text-primary-400"></i> </a>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 xl:px-8"> {% for rel_post in related_posts %} <article
+                class="group bg-slate-50 dark:bg-dark-800 rounded-2xl border border-gray-200 dark:border-transparent overflow-hidden hover:border-primary-500/30 transition-all duration-300 flex flex-col h-full transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary-500/10">
+                <a href="{% url 'blog_detail' rel_post.slug %}"
+                    class="block aspect-video relative overflow-hidden bg-white dark:bg-dark-900 border-b border-gray-200 dark:border-transparent ">
+                    {% if rel_post.image %} <img src="{{ rel_post.image.url }}" alt="{{ rel_post.title }}"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"> {%
+                    else %} <div
+                        class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900">
+                        <i
+                            class="fa-solid fa-newspaper text-5xl text-gray-700 group-hover:scale-110 group-hover:text-primary-500/50 transition-all duration-500"></i>
+                    </div> {% endif %} <div
+                        class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-900 via-transparent to-transparent opacity-60">
+                    </div> </a>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex items-center text-xs font-semibold mb-4 text-gray-500 "> <span
+                            class="text-primary-400 uppercase tracking-wider">{{ rel_post.get_category_display }}</span>
+                        <span class="w-1.5 h-1.5 bg-gray-600 rounded-full mx-3"></span> <time
+                            datetime="{{ rel_post.created_at|date:'Y-m-d' }}">{{ rel_post.created_at|date:"M d, Y"
+                            }}</time> </div> <a href="{% url 'blog_detail' rel_post.slug %}"
+                        class="block mt-auto group-hover:text-primary-400 transition-colors">
+                        <h3
+                            class="text-xl font-bold font-display text-slate-900 dark:text-white line-clamp-3 leading-snug">
+                            {{ rel_post.title }} </h3>
+                    </a>
+                </div>
+            </article> {% endfor %} </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

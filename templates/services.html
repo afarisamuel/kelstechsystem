@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %} {% block title %}Services{% endblock %} {% block content %}
+<!-- Page Header -->
+<section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-white dark:from-dark-900/50 to-slate-100 dark:to-dark-950"></div>
+    <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-primary-500/5 rounded-full blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"> <span
+            class="inline-block text-primary-400 text-sm font-semibold uppercase tracking-widest mb-4">Our
+            Services</span>
+        <h1 class="text-4xl sm:text-5xl font-display font-extrabold text-slate-900 dark:text-white mb-6"> What We <span
+                class="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">Offer</span> </h1>
+        <p class="text-gray-500 max-w-2xl mx-auto text-lg">Comprehensive security and technology solutions tailored to
+            protect and grow your business.</p>
+    </div>
+</section> <!-- Services Grid -->
+<section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"> {% for service in services %} <a
+                href="{% url 'service_detail' service.slug %}"
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                {% if service.image %} <div class="aspect-video overflow-hidden"> <img src="{{ service.image.url }}"
+                        alt="{{ service.title }}"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div> {% else %} <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i
+                        class="fa-solid {{ service.icon_class }} text-5xl text-primary-400/30 group-hover:text-primary-400/50 transition-colors duration-300"></i>
+                </div> {% endif %} <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid {{ service.icon_class }} text-xl text-primary-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">{{ service.title }}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-4">{{ service.short_description }}</p>
+                    <div class="flex items-center text-primary-400 text-sm font-medium"> Learn More <i
+                            class="fa-solid fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </div>
+                </div> </a> {% empty %} <!-- Fallback services when database is empty -->
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-video text-5xl text-primary-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-video text-xl text-primary-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">CCTV Installation</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Professional surveillance camera installation with
+                        24/7 monitoring capabilities.</p>
+                </div>
+            </div>
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-shield-halved text-5xl text-primary-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-shield-halved text-xl text-primary-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Security Systems</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Complete security solutions including access
+                        control, alarms, and fire detection.</p>
+                </div>
+            </div>
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-mobile-screen-button text-5xl text-accent-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-accent-500/20 to-accent-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-mobile-screen-button text-xl text-accent-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">App Development</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Custom mobile applications for iOS and Android
+                        built with the latest technologies.</p>
+                </div>
+            </div>
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-globe text-5xl text-accent-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-accent-500/20 to-accent-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-globe text-xl text-accent-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Website Development</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Modern responsive websites that drive results —
+                        from corporate sites to e-commerce.</p>
+                </div>
+            </div>
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-code text-5xl text-primary-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-code text-xl text-primary-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Software Development</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Custom enterprise software solutions, automation
+                        tools, and system integrations.</p>
+                </div>
+            </div>
+            <div
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-network-wired text-5xl text-primary-400/30"></i> </div>
+                <div class="p-6">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-network-wired text-xl text-primary-400"></i> </div>
+                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-3">Network Infrastructure</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Secure network design, installation, and
+                        maintenance for businesses of all sizes.</p>
+                </div>
+            </div> {% endfor %}
+        </div>
+    </div>
+</section> <!-- FAQ Section -->
+<section id="faq" class="py-20 relative bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-transparent ">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16"> <span
+                class="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-semibold uppercase tracking-wider mb-4">
+                FAQ </span>
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-slate-900 dark:text-white mb-6">Frequently Asked
+                Questions</h2>
+            <p class="text-gray-500 max-w-2xl mx-auto">Got questions? We've got answers. If your question is not listed
+                here, feel free to reach out to us using the contact form.</p>
+        </div>
+        <div class="space-y-4"> {% for faq in faqs %} <details
+                class="group bg-slate-50 dark:bg-dark-800/40 border border-gray-200 dark:border-transparent rounded-2xl [&_summary::-webkit-details-marker]:hidden hover:border-primary-500/30 transition-all duration-300">
+                <summary
+                    class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-slate-900 dark:text-white font-semibold">
+                    <h3 class="text-lg">{{ faq.question }}</h3> <span class="relative size-5 shrink-0 text-primary-400">
+                        <i
+                            class="fa-solid fa-plus absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-100 group-open:opacity-0"></i>
+                        <i
+                            class="fa-solid fa-minus absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 opacity-0 group-open:opacity-100"></i>
+                    </span>
+                </summary>
+                <div
+                    class="p-6 pt-0 text-gray-500 text-sm leading-relaxed prose dark:prose-invert prose-p:mb-0 max-w-none">
+                    {{ faq.answer|linebreaks }} </div>
+            </details> {% empty %} <div
+                class="text-center p-8 bg-slate-50 dark:bg-dark-800/30 rounded-2xl border border-gray-200 dark:border-transparent ">
+                <p class="text-gray-500">No FAQs available at the moment.</p>
+            </div> {% endfor %} </div>
+    </div>
+</section> <!-- CTA -->
+<section class="py-20 bg-white dark:bg-dark-900">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-display font-bold text-slate-900 dark:text-white mb-4">Need a Custom Solution?</h2>
+        <p class="text-gray-500 mb-8 max-w-xl mx-auto">Every project is unique. Contact us today and let's discuss how
+            we can tailor our services to your specific needs.</p> <a href="{% url 'contact' %}"
+            class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-primary-500/25 transform hover:-translate-y-1 transition-all duration-300">
+            Request a Quote <i class="fa-solid fa-arrow-right ml-2"></i> </a>
+    </div>
+</section>
+{% endblock %}

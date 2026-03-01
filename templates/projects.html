@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-white dark:from-dark-900/50 to-slate-100 dark:to-dark-950"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span
+            class="inline-block text-primary-400 text-sm font-semibold uppercase tracking-widest mb-4">Portfolio</span>
+        <h1 class="text-4xl sm:text-5xl font-display font-extrabold text-slate-900 dark:text-white mb-6">
+            Our <span
+                class="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">Projects</span>
+        </h1>
+        <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+            Explore our portfolio of successful security installations and technology projects.
+        </p>
+    </div>
+</section>
+
+<!-- Filter Tabs -->
+<section class="py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-3">
+            <a href="{% url 'projects' %}"
+                class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 {% if not current_category %}bg-primary-500 text-white{% else %}bg-slate-50 dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white border border-gray-200 dark:border-transparent hover:border-primary-500/30{% endif %}">
+                All Projects
+            </a>
+            {% for cat_value, cat_label in categories %}
+            <a href="{% url 'projects' %}?category={{ cat_value }}"
+                class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 {% if current_category == cat_value %}bg-primary-500 text-white{% else %}bg-slate-50 dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white border border-gray-200 dark:border-transparent hover:border-primary-500/30{% endif %}">
+                {{ cat_label }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <a href="{% url 'project_detail' project.slug %}"
+                class="group bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl overflow-hidden hover:border-primary-500/30 transition-all duration-300 transform hover:-translate-y-2">
+                {% if project.image %}
+                <div class="aspect-video overflow-hidden">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                {% else %}
+                <div
+                    class="aspect-video bg-gradient-to-br from-slate-50 dark:from-dark-800 to-white dark:to-dark-900 flex items-center justify-center">
+                    <i class="fa-solid fa-folder-open text-5xl text-primary-400/20"></i>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span
+                            class="text-xs font-medium px-3 py-1 rounded-full bg-primary-500/10 text-primary-400 border border-primary-500/20">
+                            {{ project.get_category_display }}
+                        </span>
+                        {% if project.date_completed %}
+                        <span class="text-xs text-gray-500">{{ project.date_completed|date:"M Y" }}</span>
+                        {% endif %}
+                    </div>
+                    <h3
+                        class="text-lg font-semibold text-slate-900 dark:text-white mb-2 group-hover:text-primary-400 transition-colors">
+                        {{ project.title }}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-3">{{ project.description|truncatewords:20 }}</p>
+                    {% if project.client_name %}
+                    <p class="text-gray-500 text-xs"><i class="fa-solid fa-building mr-1"></i> {{ project.client_name }}
+                    </p>
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
+            <p class="text-center text-gray-500 col-span-3 py-12">No projects found in this category.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

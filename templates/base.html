@@ -5,6 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if company_info.company_logo and company_info.company_logo.name %}
+    <link rel="icon" type="image/png" href="{{ company_info.company_logo.url }}">
+    <link rel="apple-touch-icon" href="{{ company_info.company_logo.url }}">
+    {% else %}
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    {% endif %}
     <title> {% block title %} {% if company_info.meta_title %} {{ company_info.meta_title }} {% else %} {{
         company_info.company_name|default:'Kels Technologies & Systems' }}
         {% endif %} {% endblock %} | Security & Technology Solutions </title>

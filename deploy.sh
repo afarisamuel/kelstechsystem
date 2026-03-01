@@ -208,7 +208,15 @@ sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl restart nginx
 
-# 8. Setup UFW Firewall
+# 8. Fix Nginx → Gunicorn socket permissions
+# Nginx (www-data) needs to traverse /home/softivite/ to reach the socket.
+# Without this, Nginx gets "Permission denied (13)" on the socket.
+echo "=> Fixing socket permissions for Nginx..."
+sudo usermod -a -G $USER www-data
+sudo chmod g+x /home/$USER
+echo "✓ www-data added to group '$USER' and home dir made traversable."
+
+# 9. Setup UFW Firewall
 echo "=> Setting up UFW firewall..."
 sudo ufw allow 'Nginx Full'
 sudo ufw allow OpenSSH

@@ -5,8 +5,18 @@ from .forms import ContactForm
 
 
 def home_view(request):
-    services = Service.objects.filter(is_featured=True)[:4]
-    projects = Project.objects.filter(is_featured=True)[:6]
+    services = Service.objects.filter(is_featured=True)
+    if not services.exists():
+        services = Service.objects.all()[:4]
+    else:
+        services = services[:8]
+
+    projects = Project.objects.filter(is_featured=True)
+    if not projects.exists():
+        projects = Project.objects.all()[:6]
+    else:
+        projects = projects[:6]
+
     testimonials = Testimonial.objects.filter(is_active=True)[:6]
     why_choose_us_items = WhyChooseUs.objects.all()
     context = {

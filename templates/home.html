@@ -19,8 +19,8 @@
                         <div class="space-y-8 slide-content">
                             <div
                                 class="inline-flex items-center space-x-2 bg-primary-500/10 border border-primary-500/20 rounded-full px-4 py-2">
-                                <span class="w-2 h-2 bg-primary-400 rounded-full animate-pulse"></span>
-                                <span class="text-primary-300 text-sm font-medium">Security & Technology Experts</span>
+                                <span class="w-2 h-2 bg-primary-500 dark:bg-primary-400 rounded-full animate-pulse"></span>
+                                <span class="text-primary-600 dark:text-primary-300 text-sm font-semibold">Security & Technology Experts</span>
                             </div>
                             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold leading-tight">
                                 <span class="text-slate-900 dark:text-white">Protecting What</span><br>
@@ -80,8 +80,8 @@
                         <div class="space-y-8 slide-content">
                             <div
                                 class="inline-flex items-center space-x-2 bg-accent-500/10 border border-accent-500/20 rounded-full px-4 py-2">
-                                <span class="w-2 h-2 bg-accent-400 rounded-full animate-pulse"></span>
-                                <span class="text-accent-300 text-sm font-medium">Innovative Software Solutions</span>
+                                <span class="w-2 h-2 bg-accent-500 dark:bg-accent-400 rounded-full animate-pulse"></span>
+                                <span class="text-accent-600 dark:text-accent-300 text-sm font-semibold">Innovative Software Solutions</span>
                             </div>
                             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold leading-tight">
                                 <span class="text-slate-900 dark:text-white">Future-Proof Your</span><br>
@@ -135,9 +135,9 @@
                     <div class="grid lg:grid-cols-2 gap-12 items-center">
                         <div class="space-y-8 slide-content">
                             <div
-                                class="inline-flex items-center space-x-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
-                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                <span class="text-green-300 text-sm font-medium">Strategic Tech Infrastructure</span>
+                                class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2">
+                                <span class="w-2 h-2 bg-emerald-500 dark:bg-emerald-400 rounded-full animate-pulse"></span>
+                                <span class="text-emerald-600 dark:text-emerald-300 text-sm font-semibold">Strategic Tech Infrastructure</span>
                             </div>
                             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold leading-tight">
                                 <span class="text-slate-900 dark:text-white">Expert IT Advisory</span><br>
@@ -193,24 +193,26 @@
 <section class="py-24 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16"> <span
-                class="inline-block text-primary-400 text-sm font-semibold uppercase tracking-widest mb-4">What We
+                class="inline-block text-primary-600 dark:text-primary-400 text-sm font-semibold uppercase tracking-widest mb-4">What We
                 Do</span>
             <h2 class="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white mb-4">Our Core
                 Services</h2>
             <p class="text-gray-500 max-w-2xl mx-auto">Comprehensive solutions across security technology and software
                 development, tailored to your business needs.</p>
         </div>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"> {% if services %} {% for service in services %} <a
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"> {% if services %} {% for service in services %} <a
                 href="{% url 'service_detail' service.slug %}"
-                class="group relative bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl p-6 hover:border-primary-500/30 hover:bg-slate-50 dark:bg-dark-800/80 transition-all duration-300 transform hover:-translate-y-2">
-                <div
-                    class="w-14 h-14 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                    <i class="fa-solid {{ service.icon_class }} text-2xl text-primary-400"></i>
+                class="group relative bg-slate-50 dark:bg-dark-800 backdrop-blur-sm border border-gray-200 dark:border-transparent rounded-2xl p-6 hover:border-primary-500/30 hover:bg-white dark:hover:bg-dark-750 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between">
+                <div>
+                    <div
+                        class="w-14 h-14 bg-gradient-to-br from-primary-500/20 to-primary-500/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                        <i class="{% if 'fa-' in service.icon_class %}{% if 'fa-solid' in service.icon_class or 'fa-regular' in service.icon_class or 'fa-brands' in service.icon_class %}{{ service.icon_class }}{% else %}fa-solid {{ service.icon_class }}{% endif %}{% else %}fa-solid fa-shield-halved{% endif %} text-2xl text-primary-500 dark:text-primary-400"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{{ service.title }}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{{ service.short_description }}</p>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">{{ service.title }}</h3>
-                <p class="text-gray-500 text-sm leading-relaxed">{{ service.short_description }}</p>
                 <div
-                    class="mt-4 flex items-center text-primary-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    class="mt-4 flex items-center text-primary-600 dark:text-primary-400 text-sm font-semibold group-hover:translate-x-1 transition-transform duration-300">
                     Learn More <i class="fa-solid fa-arrow-right ml-2 text-xs"></i> </div>
             </a> {% endfor %} {% else %} <!-- Fallback cards when no services in DB -->
             <div
@@ -255,7 +257,7 @@
             </div> {% endif %}
         </div>
         <div class="text-center mt-12"> <a href="{% url 'services' %}"
-                class="inline-flex items-center px-6 py-3 border border-gray-300  text-gray-600 rounded-xl font-medium hover:border-primary-500/50 hover:text-primary-400 transition-all duration-300">
+                class="inline-flex items-center px-6 py-3 border border-gray-300  text-gray-600 dark:text-gray-300 rounded-xl font-medium hover:border-primary-500/50 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-slate-50 dark:hover:bg-dark-800 transition-all duration-300">
                 View All Services <i class="fa-solid fa-arrow-right ml-2"></i> </a> </div>
     </div>
 </section> <!-- Why Choose Us -->
@@ -398,7 +400,7 @@
                     website from scratch. Professional, fast, and always available for support."</p>
                 <div class="flex items-center space-x-3">
                     <div
-                        class="w-10 h-10 bg-gradient-to-br from-accent-500 to-primary-500 rounded-full flex items-center justify-center text-slate-900 dark:text-white font-semibold text-sm">
+                        class="w-10 h-10 bg-gradient-to-br from-accent-500 to-primary-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                         K</div>
                     <div>
                         <div class="text-slate-900 dark:text-white font-medium text-sm">Kwame Boateng</div>
@@ -417,7 +419,7 @@
                     business operations. The team is incredibly talented and responsive!"</p>
                 <div class="flex items-center space-x-3">
                     <div
-                        class="w-10 h-10 bg-gradient-to-br from-green-500 to-primary-500 rounded-full flex items-center justify-center text-slate-900 dark:text-white font-semibold text-sm">
+                        class="w-10 h-10 bg-gradient-to-br from-green-500 to-primary-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
                         E</div>
                     <div>
                         <div class="text-slate-900 dark:text-white font-medium text-sm">Efua Asante</div>

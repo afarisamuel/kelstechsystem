@@ -143,6 +143,12 @@ class CompanyInfo(models.Model):
     # Branding
     company_name = models.CharField(max_length=100, default='Kels Technologies & Systems', help_text='Name displayed on the website')
     company_logo = models.ImageField(upload_to='company/', blank=True, null=True, help_text='Main website logo')
+    brochure = models.FileField(
+        upload_to='brochures/', 
+        blank=True, 
+        null=True, 
+        help_text='Upload company brochure PDF or document for the floating download button'
+    )
 
     # About Us Page text
     about_headline = models.CharField(max_length=200, default='Built on Trust, Driven by Innovation')
@@ -177,6 +183,14 @@ class CompanyInfo(models.Model):
 
     class Meta:
         verbose_name_plural = 'Company Info'
+
+    @property
+    def formatted_name(self):
+        name = self.company_name or 'Kels Technologies & Systems'
+        if ' & ' in name:
+            parts = name.split(' & ', 1)
+            return f'{parts[0]}<br>&amp; {parts[1]}'
+        return name
 
     def __str__(self):
         return "Company Information"

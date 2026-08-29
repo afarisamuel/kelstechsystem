@@ -15,7 +15,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-insecure-key-change-in-produ
 
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')]
+raw_hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [h.strip().strip("'\"[]") for h in raw_hosts.split(',') if h.strip().strip("'\"[]")]
 
 INSTALLED_APPS = [
     'unfold',

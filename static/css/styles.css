@@ -112,23 +112,39 @@ body, button, input, select, textarea {
 }
 
 /* Swiper Custom Pagination */
+.swiper-pagination {
+    bottom: 5rem !important;
+}
+
 .swiper-pagination-bullet {
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.2) !important;
+    width: 10px;
+    height: 10px;
+    background: rgba(10, 25, 49, 0.25) !important;
     opacity: 1 !important;
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet:hover {
+    background: rgba(10, 25, 49, 0.5) !important;
 }
 
 .swiper-pagination-bullet-active {
-    width: 32px;
+    width: 28px;
     border-radius: 6px;
     background: #0a1931 !important;
-    /* primary-500 = company navy */
 }
 
 .dark .swiper-pagination-bullet {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+}
+
+.dark .swiper-pagination-bullet:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.dark .swiper-pagination-bullet-active {
+    background: #5c8abd !important;
 }
 
 /* Slide Content Transitions */
